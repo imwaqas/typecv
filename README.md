@@ -62,7 +62,7 @@ openjdk version "17.0.x" ...
 
 ### Option 1: Download Pre-built JAR (Recommended)
 
-1. Download the latest `typecv-1.0.0-all.jar` from the [Releases](https://github.com/yourusername/typecv/releases) page
+1. Download the latest `typecv-1.0.0-all.jar` from the [Releases](https://github.com/imwaqas/typecv/releases) page
 2. Place it in a convenient directory
 3. Run with: `java -jar typecv-1.0.0-all.jar`
 
@@ -344,7 +344,7 @@ date: 2023-07
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/typecv.git
+git clone https://github.com/imwaqas/typecv.git
 cd typecv
 ```
 
