@@ -1,0 +1,90 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.graalvm.buildtools.native' version '0.10.1'
+}
+
+group = 'com.typecv'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // CLI framework
+    implementation 'info.picocli:picocli:4.7.6'
+    annotationProcessor 'info.picocli:picocli-codegen:4.7.6'
+
+    // YAML parsing
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.0'
+
+    // Template engine
+    implementation 'org.freemarker:freemarker:2.3.32'
+
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+application {
+    mainClass = 'com.typecv.TypeCV'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'com.typecv.TypeCV'
+        )
+    }
+}
+
+// Create a fat JAR with all dependencies
+tasks.register('fatJar', Jar) {
+    archiveClassifier = 'all'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': 'com.typecv.TypeCV'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
+}
+
+// GraalVM Native Image configuration
+graalvmNative {
+    binaries {
+        main {
+            imageName = 'typecv'
+            mainClass = 'com.typecv.TypeCV'
+            
+            buildArgs.add('--no-fallback')
+            buildArgs.add('--enable-url-protocols=https')
+            buildArgs.add('-H:+ReportExceptionStackTraces')
+            
+            // Include resources
+            buildArgs.add('-H:IncludeResources=.*\\.yaml$')
+            buildArgs.add('-H:IncludeResources=.*\\.ftl$')
+            buildArgs.add('-H:IncludeResources=.*\\.exe$')
+            buildArgs.add('-H:IncludeResources=typst/.*')
+            buildArgs.add('-H:IncludeResources=templates/.*')
+            
+            // Reduce image size
+            jvmArgs.add('-Dfile.encoding=UTF-8')
+        }
+    }
+    
+    toolchainDetection = false
+}

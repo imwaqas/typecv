@@ -1,0 +1,2 @@
+#bullet-item[${entry.bullet()}]
+

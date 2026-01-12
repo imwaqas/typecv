@@ -1,0 +1,66 @@
+cv:
+  name: John Doe
+  headline: Software Engineer
+  location: San Francisco, CA
+  email: john.doe@email.com
+  phone: "+1 555 123 4567"
+  website: https://johndoe.dev
+  social_networks:
+    - network: LinkedIn
+      username: johndoe
+    - network: GitHub
+      username: johndoe
+  sections:
+    summary:
+      - Passionate software engineer with 5+ years of experience building scalable web applications and distributed systems.
+      - Strong background in Java, Python, and cloud technologies.
+    education:
+      - institution: Stanford University
+        area: Computer Science
+        degree: MS
+        start_date: 2016-09
+        end_date: 2018-06
+        location: Stanford, CA
+        highlights:
+          - "GPA: 3.9/4.0"
+          - Focus on Distributed Systems and Machine Learning
+      - institution: University of California, Berkeley
+        area: Computer Science
+        degree: BS
+        start_date: 2012-09
+        end_date: 2016-05
+        location: Berkeley, CA
+        highlights:
+          - "GPA: 3.8/4.0"
+          - Dean's List all semesters
+    experience:
+      - company: Tech Corp
+        position: Senior Software Engineer
+        start_date: 2020-01
+        end_date: present
+        location: San Francisco, CA
+        highlights:
+          - Led development of microservices architecture serving 10M+ daily requests
+          - Reduced system latency by 40% through optimization initiatives
+          - Mentored team of 5 junior engineers
+      - company: StartupXYZ
+        position: Software Engineer
+        start_date: 2018-07
+        end_date: 2019-12
+        location: San Francisco, CA
+        highlights:
+          - Built RESTful APIs using Java Spring Boot
+          - Implemented CI/CD pipelines using Jenkins and Docker
+          - Collaborated with product team to deliver features on schedule
+    skills:
+      - bullet: "Languages: Java, Python, TypeScript, SQL"
+      - bullet: "Frameworks: Spring Boot, React, Node.js"
+      - bullet: "Tools: Docker, Kubernetes, AWS, Git"
+    honors:
+      - bullet: Employee of the Year 2021 - Tech Corp
+      - bullet: Best Project Award - Stanford CS Department
+      - bullet: Dean's List - UC Berkeley
+design:
+  theme: classic
+locale:
+  language: english
