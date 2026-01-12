@@ -25,7 +25,7 @@ public record ExperienceEntry(
             return date;
         }
         if (startDate != null && endDate != null) {
-            return startDate + " – " + endDate;
+            return startDate + " -- " + endDate;
         }
         return "";
     }

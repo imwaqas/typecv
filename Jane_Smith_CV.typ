@@ -96,7 +96,7 @@ Strong background in Java, Python, and cloud technologies.
 #entry-header(
   [*Stanford University*, Computer Science -- MS],
   [Stanford, CA\ 
-2016-09 â€“ 2018-06],
+2016-09 -- 2018-06],
 )
 #bullet-item[GPA: 3.9/4.0]
 #bullet-item[Focus on Distributed Systems and Machine Learning]
@@ -106,7 +106,7 @@ Strong background in Java, Python, and cloud technologies.
 #entry-header(
   [*University of California, Berkeley*, Computer Science -- BS],
   [Berkeley, CA\ 
-2012-09 â€“ 2016-05],
+2012-09 -- 2016-05],
 )
 #bullet-item[GPA: 3.8/4.0]
 #bullet-item[Dean's List all semesters]
@@ -119,7 +119,7 @@ Strong background in Java, Python, and cloud technologies.
 #entry-header(
   [*Tech Corp*, Senior Software Engineer],
   [San Francisco, CA\ 
-2020-01 â€“ present],
+2020-01 -- present],
 )
 #bullet-item[Led development of microservices architecture serving 10M+ daily requests]
 #bullet-item[Reduced system latency by 40% through optimization initiatives]
@@ -130,7 +130,7 @@ Strong background in Java, Python, and cloud technologies.
 #entry-header(
   [*StartupXYZ*, Software Engineer],
   [San Francisco, CA\ 
-2018-07 â€“ 2019-12],
+2018-07 -- 2019-12],
 )
 #bullet-item[Built RESTful APIs using Java Spring Boot]
 #bullet-item[Implemented CI/CD pipelines using Jenkins and Docker]
