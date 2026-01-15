@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Command(
     name = "new",
+    mixinStandardHelpOptions = true,
     description = "Create a new CV YAML file with sample content"
 )
 public class NewCommand implements Callable<Integer> {

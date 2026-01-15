@@ -1,2 +1,3 @@
-${entry.text()}
+${escapeTypst(entry.text())}
+#v(${design.sections.spaceBetweenTextBasedEntries})
 

@@ -15,6 +15,7 @@ import java.util.concurrent.Callable;
 
 @Command(
     name = "render",
+    mixinStandardHelpOptions = true,
     description = "Render a CV YAML file to PDF"
 )
 public class RenderCommand implements Callable<Integer> {

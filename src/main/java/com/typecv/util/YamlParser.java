@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.typecv.model.*;
+import com.typecv.theme.ThemeLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,11 +66,8 @@ public class YamlParser {
         // Parse cv section
         CvData cvData = parseCvData(root.get("cv"));
         
-        // Parse design section (optional)
-        Design design = null;
-        if (root.has("design")) {
-            design = mapper.treeToValue(root.get("design"), Design.class);
-        }
+        // Parse design section with theme support
+        Design design = parseDesignWithTheme(root);
         
         // Parse locale section (optional)
         Locale locale = null;
@@ -78,6 +76,33 @@ public class YamlParser {
         }
         
         return new CV(cvData, design, locale).withDefaults();
+    }
+    
+    /**
+     * Parse design section with theme loading support.
+     * If a theme is specified, load theme defaults and merge with user overrides.
+     */
+    private Design parseDesignWithTheme(JsonNode root) throws IOException {
+        ThemeLoader themeLoader = new ThemeLoader();
+        
+        if (!root.has("design")) {
+            // No design specified, use classic theme defaults
+            return themeLoader.loadThemeDefaults("classic");
+        }
+        
+        JsonNode designNode = root.get("design");
+        
+        // Get the theme name (default to "classic")
+        String themeName = "classic";
+        if (designNode.has("theme")) {
+            themeName = designNode.get("theme").asText();
+        }
+        
+        // Parse user's design overrides
+        Design userDesign = mapper.treeToValue(designNode, Design.class);
+        
+        // Load theme defaults and merge with user overrides
+        return themeLoader.loadTheme(themeName, userDesign);
     }
     
     private CvData parseCvData(JsonNode cvNode) throws IOException {
@@ -136,16 +161,45 @@ public class YamlParser {
             return new TextEntry(node.asText());
         }
         
+        // EducationEntry: has "institution" field
         if (node.has("institution")) {
             return mapper.treeToValue(node, EducationEntry.class);
         }
         
+        // ExperienceEntry: has "company" field
         if (node.has("company")) {
             return mapper.treeToValue(node, ExperienceEntry.class);
         }
         
+        // ProjectEntry: has "name" field with optional summary/highlights (but not "label")
+        // Must check before OneLineEntry since both could have "name"
+        if (node.has("name") && !node.has("label")) {
+            return mapper.treeToValue(node, ProjectEntry.class);
+        }
+        
+        // PublicationEntry: has "title" field (for publications)
+        if (node.has("title")) {
+            return mapper.treeToValue(node, PublicationEntry.class);
+        }
+        
+        // OneLineEntry: has "label" and "details" fields
+        if (node.has("label") && node.has("details")) {
+            return mapper.treeToValue(node, OneLineEntry.class);
+        }
+        
+        // BulletEntry: has "bullet" field
         if (node.has("bullet")) {
             return mapper.treeToValue(node, BulletEntry.class);
+        }
+        
+        // NumberedEntry: has "number" field
+        if (node.has("number")) {
+            return mapper.treeToValue(node, NumberedEntry.class);
+        }
+        
+        // ReversedNumberedEntry: has "reversed_number" field
+        if (node.has("reversed_number")) {
+            return mapper.treeToValue(node, ReversedNumberedEntry.class);
         }
         
         // Default to TextEntry if it's a simple object with text
@@ -185,8 +239,28 @@ public class YamlParser {
                 return mapper.treeToValue(node, ExperienceEntry.class);
             }
             
+            if (node.has("name") && !node.has("label")) {
+                return mapper.treeToValue(node, ProjectEntry.class);
+            }
+            
+            if (node.has("title")) {
+                return mapper.treeToValue(node, PublicationEntry.class);
+            }
+            
+            if (node.has("label") && node.has("details")) {
+                return mapper.treeToValue(node, OneLineEntry.class);
+            }
+            
             if (node.has("bullet")) {
                 return mapper.treeToValue(node, BulletEntry.class);
+            }
+            
+            if (node.has("number")) {
+                return mapper.treeToValue(node, NumberedEntry.class);
+            }
+            
+            if (node.has("reversed_number")) {
+                return mapper.treeToValue(node, ReversedNumberedEntry.class);
             }
             
             return new TextEntry(node.toString());

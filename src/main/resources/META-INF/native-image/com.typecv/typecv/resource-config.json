@@ -3,6 +3,7 @@
     "includes": [
       {"pattern": "sample_content\\.yaml$"},
       {"pattern": "templates/.*\\.ftl$"},
+      {"pattern": "themes/.*\\.yaml$"},
       {"pattern": "typst/.*"}
     ]
   },

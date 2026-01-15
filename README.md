@@ -18,6 +18,8 @@ A Java-based CV generator.
 ## Features
 
 - **Simple YAML input** - Define your CV in a human-readable YAML file
+- **Multiple themes** - Choose from 4 built-in themes (classic, sb2nov, moderncv, engineeringresumes)
+- **Fully customizable** - Override any design setting (colors, fonts, spacing, etc.)
 - **Professional PDF output** - Generates beautifully typeset PDFs using Typst
 - **Bundled runtime** - Typst is bundled in the JAR (no separate installation needed)
 - **Cross-platform** - Works on Windows, macOS, and Linux
@@ -168,7 +170,7 @@ cv:
     # Your CV sections go here
     
 design:
-  theme: classic                       # Only "classic" supported in MVP
+  theme: classic                       # Available: classic, sb2nov, moderncv, engineeringresumes
 
 locale:
   language: english                    # Only "english" supported in MVP
@@ -326,18 +328,150 @@ end_date: present
 date: 2023-07
 ```
 
-### Supported Social Networks
+## Themes
 
-- LinkedIn
-- GitHub
-- Twitter / X
-- GitLab
-- StackOverflow
-- Mastodon
-- ORCID
-- ResearchGate
-- YouTube
-- Instagram
+TypeCV includes 4 built-in themes. Each theme provides a complete set of styling defaults that you can override.
+
+### Available Themes
+
+| Theme | Description |
+|-------|-------------|
+| `classic` | Professional CV with blue accents and clean layout (default) |
+| `sb2nov` | LaTeX-style resume with Computer Modern font, inspired by the popular sb2nov template |
+| `moderncv` | Modern CV with left-aligned header and colored sections, inspired by ModernCV |
+| `engineeringresumes` | ATS-friendly resume optimized for technical/engineering positions |
+
+### Using a Theme
+
+Simply specify the theme name in your YAML:
+
+```yaml
+design:
+  theme: sb2nov
+```
+
+### Customizing Theme Settings
+
+You can override any setting from the theme. User settings take precedence over theme defaults:
+
+```yaml
+design:
+  theme: classic
+  colors:
+    name: "rgb(100, 0, 0)"           # Change name color to dark red
+    section_titles: "rgb(50, 50, 50)" # Dark gray section titles
+  typography:
+    font_family:
+      body: "Arial"                   # Change body font
+    font_size:
+      name: "24pt"                    # Smaller name size
+  header:
+    alignment: left                   # Left-align header instead of center
+  section_titles:
+    type: with_full_line              # Full-width line under section titles
+  entries:
+    highlights:
+      bullet: "→"                     # Use arrow instead of bullet
+```
+
+### Complete Design Options
+
+```yaml
+design:
+  theme: classic                       # Theme name
+  
+  page:
+    size: us-letter                    # a4, a5, us-letter, us-executive
+    top_margin: "0.7in"
+    bottom_margin: "0.7in"
+    left_margin: "0.7in"
+    right_margin: "0.7in"
+    show_footer: true
+    show_top_note: false
+    
+  colors:
+    body: "rgb(0, 0, 0)"
+    name: "rgb(0, 79, 144)"
+    headline: "rgb(0, 79, 144)"
+    connections: "rgb(0, 79, 144)"
+    section_titles: "rgb(0, 79, 144)"
+    links: "rgb(0, 79, 144)"
+    footer: "rgb(128, 128, 128)"
+    
+  typography:
+    font_family:
+      body: "Source Sans 3"
+      name: "Source Sans 3"
+      headline: "Source Sans 3"
+      connections: "Source Sans 3"
+      section_titles: "Source Sans 3"
+    font_size:
+      body: "10pt"
+      name: "30pt"
+      headline: "10pt"
+      connections: "10pt"
+      section_titles: "1.4em"
+    line_spacing: "0.6em"
+    alignment: justified              # left, justified, justified-with-no-hyphenation
+    date_and_location_column_alignment: right
+    small_caps:
+      name: false
+      headline: false
+      connections: false
+      section_titles: false
+    bold:
+      name: true
+      headline: false
+      connections: false
+      section_titles: true
+      
+  links:
+    underline: false
+    show_external_link_icon: false
+    
+  header:
+    alignment: center                  # left, center, right
+    photo_width: "3.5cm"
+    photo_position: left
+    space_below_name: "0.7cm"
+    space_below_headline: "0.7cm"
+    space_below_connections: "0.7cm"
+    connections:
+      phone_number_format: national
+      hyperlink: true
+      show_icons: true
+      display_urls_instead_of_usernames: false
+      separator: ""                    # Use "•" or "|" for separators
+      space_between_connections: "0.5cm"
+      
+  section_titles:
+    type: with_partial_line            # with_partial_line, with_full_line, without_line, moderncv
+    line_thickness: "0.5pt"
+    space_above: "0.5cm"
+    space_below: "0.3cm"
+    
+  sections:
+    allow_page_break: true
+    space_between_regular_entries: "1.2em"
+    space_between_text_based_entries: "0.3em"
+    
+  entries:
+    date_and_location_width: "4.15cm"
+    side_space: "0.2cm"
+    space_between_columns: "0.1cm"
+    allow_page_break: false
+    short_second_row: true
+    summary:
+      space_above: "0cm"
+      space_left: "0cm"
+    highlights:
+      bullet: "•"
+      nested_bullet: "•"
+      space_left: "0.15cm"
+      space_above: "0cm"
+      space_between_items: "0cm"
+      space_between_bullet_and_text: "0.5em"
+```
 
 ## Building from Source
 
@@ -534,7 +668,6 @@ MIT License
 
 ## Credits
 
-- Inspired by [RenderCV](https://github.com/rendercv/rendercv)
 - PDF rendering powered by [Typst](https://typst.app)
 - CLI framework: [Picocli](https://picocli.info)
 - Template engine: [Freemarker](https://freemarker.apache.org)

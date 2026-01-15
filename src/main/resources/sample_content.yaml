@@ -61,6 +61,12 @@ cv:
       - bullet: Best Project Award - Stanford CS Department
       - bullet: Dean's List - UC Berkeley
 design:
-  theme: classic
+  theme: classic  # Available themes: classic, sb2nov, moderncv, engineeringresumes
+  # Customize any design setting below (uncomment to override):
+  # colors:
+  #   name: "rgb(0, 100, 0)"
+  # section_titles:
+  #   type: with_full_line
+  
 locale:
   language: english

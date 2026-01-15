@@ -1,56 +1,132 @@
 // TypeCV Generated Document
-// Theme: Classic
+// Theme: ${design.theme}
 
 #set page(
-  paper: "us-letter",
+  paper: "${design.page.size}",
   margin: (
-    top: 0.7in,
-    bottom: 0.7in,
-    left: 0.7in,
-    right: 0.7in,
+    top: ${design.page.topMargin},
+    bottom: ${design.page.bottomMargin},
+    left: ${design.page.leftMargin},
+    right: ${design.page.rightMargin},
   ),
 )
 
 #set text(
-  font: "Arial",
-  size: 10pt,
-  fill: rgb(0, 0, 0),
+  font: "${design.typography.fontFamily.body}",
+  size: ${design.typography.fontSize.body},
+  fill: ${design.colors.body},
 )
 
 #set par(
+<#if design.typography.alignment == "justified">
   justify: true,
-  leading: 0.6em,
+<#elseif design.typography.alignment == "justified-with-no-hyphenation">
+  justify: true,
+<#else>
+  justify: false,
+</#if>
+  leading: ${design.typography.lineSpacing},
 )
 
-// Colors
-#let primary-color = rgb(0, 79, 144)
-#let body-color = rgb(0, 0, 0)
-#let gray-color = rgb(128, 128, 128)
+<#if design.typography.alignment == "justified-with-no-hyphenation">
+#set text(hyphenate: false)
+</#if>
 
-// Helper functions
+// Colors
+#let primary-color = ${design.colors.sectionTitles}
+#let name-color = ${design.colors.name}
+#let headline-color = ${design.colors.headline}
+#let connections-color = ${design.colors.connections}
+#let body-color = ${design.colors.body}
+#let links-color = ${design.colors.links}
+#let footer-color = ${design.colors.footer}
+
+// Typography settings
+#let name-size = ${design.typography.fontSize.name}
+#let headline-size = ${design.typography.fontSize.headline}
+#let connections-size = ${design.typography.fontSize.connections}
+#let section-title-size = ${design.typography.fontSize.sectionTitles}
+
+// Section title style: ${design.sectionTitles.type}
+<#if design.sectionTitles.type == "with_partial_line">
 #let section-title(title) = {
-  v(0.5cm)
+  v(${design.sectionTitles.spaceAbove})
+  grid(
+    columns: (auto, 1fr),
+    column-gutter: 0.3cm,
+    align: (left, horizon),
+    text(
+      fill: primary-color,
+      weight: <#if design.typography.bold.sectionTitles>"bold"<#else>"regular"</#if>,
+      size: section-title-size,
+      <#if design.typography.smallCaps.sectionTitles>smallcaps([#title])<#else>[#title]</#if>
+    ),
+    line(length: 100%, stroke: ${design.sectionTitles.lineThickness} + primary-color),
+  )
+  v(${design.sectionTitles.spaceBelow})
+}
+<#elseif design.sectionTitles.type == "with_full_line">
+#let section-title(title) = {
+  v(${design.sectionTitles.spaceAbove})
   text(
     fill: primary-color,
-    weight: "bold",
-    size: 1.4em,
-    [#title]
+    weight: <#if design.typography.bold.sectionTitles>"bold"<#else>"regular"</#if>,
+    size: section-title-size,
+    <#if design.typography.smallCaps.sectionTitles>smallcaps([#title])<#else>[#title]</#if>
   )
-  line(length: 100%, stroke: 0.5pt + primary-color)
-  v(0.3cm)
+  line(length: 100%, stroke: ${design.sectionTitles.lineThickness} + primary-color)
+  v(${design.sectionTitles.spaceBelow})
 }
+<#elseif design.sectionTitles.type == "moderncv">
+#let section-title(title) = {
+  v(${design.sectionTitles.spaceAbove})
+  grid(
+    columns: (auto, 1fr),
+    column-gutter: 0.3cm,
+    align: (left, horizon),
+    text(
+      fill: primary-color,
+      weight: <#if design.typography.bold.sectionTitles>"bold"<#else>"regular"</#if>,
+      size: section-title-size,
+      <#if design.typography.smallCaps.sectionTitles>smallcaps([#title])<#else>[#title]</#if>
+    ),
+    rect(width: 100%, height: ${design.sectionTitles.lineThickness}, fill: primary-color),
+  )
+  v(${design.sectionTitles.spaceBelow})
+}
+<#else>
+// without_line
+#let section-title(title) = {
+  v(${design.sectionTitles.spaceAbove})
+  text(
+    fill: primary-color,
+    weight: <#if design.typography.bold.sectionTitles>"bold"<#else>"regular"</#if>,
+    size: section-title-size,
+    <#if design.typography.smallCaps.sectionTitles>smallcaps([#title])<#else>[#title]</#if>
+  )
+  v(${design.sectionTitles.spaceBelow})
+}
+</#if>
 
+// Entry header helper
 #let entry-header(main, date-location) = {
   grid(
-    columns: (1fr, auto),
-    column-gutter: 0.5cm,
-    align: (left, right),
+    columns: (1fr, ${design.entries.dateAndLocationWidth}),
+    column-gutter: ${design.entries.spaceBetweenColumns},
+    align: (left, ${design.typography.dateAndLocationColumnAlignment}),
     main,
     text(size: 0.9em, date-location),
   )
 }
 
+// Bullet item helper
 #let bullet-item(content) = {
-  [• #content]
+  h(${design.entries.highlights.spaceLeft})
+  [${design.entries.highlights.bullet} #content]
 }
+
+// Link styling
+<#if design.links.underline>
+#show link: underline
+</#if>
 
